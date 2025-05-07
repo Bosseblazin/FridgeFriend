@@ -1,6 +1,7 @@
 import tkinter as tk
 from helpers import load_inventory, save_inventory
 
+# Define the logic for adding item from the inventory
 def addition(item_name, quantity, add_item_window):
     inventory = load_inventory()
     if item_name in inventory:
@@ -9,6 +10,8 @@ def addition(item_name, quantity, add_item_window):
         inventory[item_name] = quantity
     save_inventory(inventory)
 
+    # Create a confirmation window
+    # This window will inform the user that the item was successfully added
     confirmation_window = tk.Toplevel()
     confirmation_window.title("Item Added")
     confirmation_window.geometry("350x150")
@@ -16,6 +19,7 @@ def addition(item_name, quantity, add_item_window):
     tk.Label(confirmation_window, text=message, wraplength=200).pack(padx=10, pady=10)
     add_item_window.destroy()
 
+# Define the logic for subtracting item from the inventory
 def subtraction(item_name, quantity, subtract_item_window):
     inventory = load_inventory()
     if item_name in inventory:
@@ -24,6 +28,7 @@ def subtraction(item_name, quantity, subtract_item_window):
             del inventory[item_name]
     save_inventory(inventory)
 
+    # Create a confirmation window
     confirmation_window = tk.Toplevel()
     confirmation_window.title("Item Subtracted")
     confirmation_window.geometry("350x150")
