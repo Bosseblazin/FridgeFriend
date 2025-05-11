@@ -1,7 +1,7 @@
 import tkinter as tk
 from inventory import addition, subtraction
-from validation import input_validation
-from helpers import load_inventory
+from validation import input_validation, validate_item_name
+from helpers import load_inventory, show_error
 from tkinter import PhotoImage
 import os
 
@@ -20,11 +20,17 @@ def add_item():
     quantity_entry = tk.Entry(add_item_window)
     quantity_entry.grid(row=3, column=1, padx=10, pady=5)
 
-    tk.Button(
-        add_item_window, text="Submit",
-        command=lambda: addition(input_validation(quantity_entry.get(), item_entry.get().lower()), add_item_window)
-    ).grid(row=4, column=1, padx=2, pady=10)
+    #Function to send submition to the addition function
+    #This function will validate the item name and quantity before calling the addition function
+    def on_submit():
+        item_name = validate_item_name(item_entry.get())
+        quantity = input_validation(quantity_entry.get())
+        if item_name and quantity:
+            addition(item_name, quantity, add_item_window)
 
+    tk.Button(add_item_window, text="Submit", command=on_submit).grid(row=4, column=1, padx=2, pady=10)
+
+#Define the function for subtracting items from the inventory
 def subtract_item():
     subtract_item_window = tk.Toplevel()
     subtract_item_window.title("Add Items")
@@ -38,10 +44,16 @@ def subtract_item():
     quantity_entry = tk.Entry(subtract_item_window)
     quantity_entry.grid(row=3, column=1, padx=10, pady=5)
 
-    tk.Button(
-        subtract_item_window, text="Submit",
-        command=lambda: subtraction(input_validation(quantity_entry.get(), item_entry.get().lower()), subtract_item_window)
-    ).grid(row=4, column=1, padx=2, pady=10)
+    #Function to send submition to the subtraction function
+    #This function will validate the item name and quantity before calling the subtraction function
+    def on_submit():
+        item_name = validate_item_name(item_entry.get())
+        quantity = input_validation(quantity_entry.get())
+        if item_name and quantity:
+            subtraction(item_name, quantity, subtract_item_window)
+
+    tk.Button(subtract_item_window, text="Submit", command=on_submit).grid(row=4, column=1, padx=2, pady=10)
+
 
 #Define the function for viewing the inventory
 #This function will create a new window to display the current inventory
@@ -63,7 +75,7 @@ def view_list():
 #This window will contain the buttons for adding, subtracting, and viewing the inventory
 app = tk.Tk()
 app.title("FridgeFriend")
-app.geometry("400x325")
+app.geometry("400x320")
 fidge_img = PhotoImage(file=os.path.join(os.path.dirname(__file__), "fridge.png"))
 grocery_img = PhotoImage(file=os.path.join(os.path.dirname(__file__), "groceries.png"))
 shopping_cart_img = PhotoImage(file=os.path.join(os.path.dirname(__file__), "shopping.png"))
@@ -94,4 +106,5 @@ tk.Button(app, text="Subtract Inventory", command=subtract_item).grid(row=3, col
 tk.Button(app, text="View Inventory", command=view_list).grid(row=3, column=2, padx=5, pady=5, sticky="ew")
 tk.Button(app, text="Exit", command=app.quit).grid(row=5, column=1, padx=5, pady=5, sticky="ew")
 
+#Run the main loop to display the application
 app.mainloop()
