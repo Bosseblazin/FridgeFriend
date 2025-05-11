@@ -33,7 +33,7 @@ def add_item():
 #Define the function for subtracting items from the inventory
 def subtract_item():
     subtract_item_window = tk.Toplevel()
-    subtract_item_window.title("Add Items")
+    subtract_item_window.title("Subtract Items")
     subtract_item_window.geometry("300x200")
 
     tk.Label(subtract_item_window, text="What would we like to subtract?").grid(row=0, column=0, columnspan=3, padx=10, pady=10)
